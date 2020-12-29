@@ -4,6 +4,8 @@
 
 - [Chapter 1: Introduction](#chapter-1-introduction)
 - [Chapter 2: Qualitites](#chapter-2-qualities)
+- [Chapter 3: Patterns](#chapter-3-patterns)
+
 
 ### Chapter 1: Introduction
 
@@ -158,3 +160,32 @@ _NB: A drawback of C style callbacks is that it is non-trivial to use a non-stat
 Observer patttern has an object maintain a list of dependent objects (observerws) and notifies them by calling one of their methods.
 
 Notifications: generalises the observer pattern through a centralised notificaiton system. Senders do not need to know about receivers beforehand, further reducing the sender-receiver coupling. Signals and slots are a popular notification scheme. Signals are callbacks with multiple targets (slots).
+
+### Chapter 3: Patterns
+
+**Pimpl**
+
+_Pointer To Implementation_ idiom has public classes contain a single private member which is of type `Implementation*` where `Implementation` is forward declared removing the need to `#include "Implementation.h"`. Thus, allowing library developers to hide all implementation detail(s) within a `*.cpp`.
+
+```
+class PimplExample {
+  public:
+  int area() {
+     return impl->height() * impl->width();
+  }
+private:
+  class Implementation;
+  Implementation* impl;
+};
+```
+
+Forward declaring the `Implementation` as a private nested class avoids polluting the global namespace with implementation-specific symbols.
+
+NB: Copy & move semantics are affected by pimpl's pointer member. Choices include using a `std::unique_ptr` or `std::shared_ptr` to store the Impl, or alternatively deleting the copy and move semantics to avoid a default shallow copying the pointer member.
+
+_Advantages:_ Information hiding, greater binary compatibility size of pimpl'd object never changes. Changes to private member variables only affect the implementation.
+
+_Disadvantages:_ Additional `allocate` and `free` for every object that is created. Extra level of indirection required to access all member variables. Compiler can no longer enfornce `const` member function access of non-const methods as they now live in a separate `Implementation` class.
+
+**Singleton**
+
