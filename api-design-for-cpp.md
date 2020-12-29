@@ -2,8 +2,8 @@
 
 ## Table of contents
 
-- [Chapter 1: Introduction] (#chapter-1-introduction)
-- [Chapter 2: Qualitites] (#chapter-2-qualities)
+- [Chapter 1: Introduction](#chapter-1-introduction)
+- [Chapter 2: Qualitites](#chapter-2-qualities)
 
 ### Chapter 1: Introduction
 
