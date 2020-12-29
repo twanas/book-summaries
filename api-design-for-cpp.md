@@ -112,7 +112,7 @@ Orthogonal APIs can be achieved by : reducing redundancy; increasing independenc
 
 Communicate the `ownership` of allocated objects by return type (`std::unique_ptr`, `std::shared_ptr`)
 
-**Recuce class coupling**
+**Reduce class coupling**
 
 When we have a choice, prefer declaring a function as a _non-member, non-friend_ function rather than a member function. This improves encapsulation and reduces coupling.
 
