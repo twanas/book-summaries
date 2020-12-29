@@ -2,8 +2,8 @@
 
 ## Table of contents
 
-- Chapter 1: Introduction
-- Chapter 2: Qualitites
+- [Chapter 1: Introduction] (###-Chapter-1:-Introduction)
+- [Chapter 2: Qualitites](###Chapter-2:-Qualities)
 
 ### Chapter 1: Introduction
 
@@ -152,6 +152,8 @@ General issues to be aware of:
 - event ordering: sequence of callbacks or notifications should be clear 
 
 Callbacks are pointers to a function within a module A which is passed to module B. They do not have link dependencies and are effective in breaking cyclic dependencies. Sometimes it is useful to provide a 'closure' within the callback function. A closure is a piece of data that module A passes to B, and module B includes in the callback to A. 
+
+_NB: A drawback of C style callbacks is that it is non-trivial to use a non-static (instance) method as a callback. This is due to the `this` pointer of the object also needs to be passed._
 
 Observer patttern has an object maintain a list of dependent objects (observerws) and notifies them by calling one of their methods.
 
