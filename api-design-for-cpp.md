@@ -7,7 +7,7 @@
 
 ### Chapter 1: Introduction
 
-APIs provide an abstraction and functional specifidation for a component/problem. Can be as small as a single function, or involve hundreds of classes, methods, free functions data types and enumerations.
+APIs provide an abstraction and functional specification for a component/problem. Can be as small as a single function, or involve hundreds of classes, methods, free functions data types and enumerations.
 
 In c++, they include:
 - *.h files
