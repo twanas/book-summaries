@@ -116,17 +116,21 @@ Communicate the `ownership` of allocated objects by return type (`std::unique_pt
 
 When we have a choice, prefer declaring a function as a _non-member, non-friend_ function rather than a member function. This improves encapsulation and reduces coupling.
 
-**Manager classes*
+**Manager classes**
 
-Manager's own and coordinate several lower-level classes. This allows dependencies to be _broken_.
+Managers own and coordinate several lower-level classes. This allows dependencies to be _broken_. The `doSelect` function could depend only on a `InputManager` rather than lower-level `MouseInput`, `TableInput` and `JoyStickInput` classes. 
+
+NB: This does **not** require virtualising.
 
 Compare
 ```
 void doSelect() {   // tight coupling between all input types
   if (mouseInput) {
-    ...
+    getMouseXCoord();
   } else if (tableInput) {
-    ...
+    getTableXCoord();
+  } else if (joystickInput) {
+    getJoystickXCoord();
   }
 }
 ```
@@ -134,10 +138,10 @@ void doSelect() {   // tight coupling between all input types
 To 
 
 ```
-struct Input {
-  ...
+struct InputManager {
+  int GetXCoord();
 };
-void doSelect(Input*); // unaware of underlying type
+void doSelect(const Input&); // unaware of underlying type
 ```
 
 **Callbacks, observers, notifications**
