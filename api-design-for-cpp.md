@@ -189,3 +189,58 @@ _Disadvantages:_ Additional `allocate` and `free` for every object that is creat
 
 **Singleton**
 
+Ensure that a class only ever has one instance - providing a global point of access to that instance:
+
+```
+struct Service {
+  static Service& instance() {
+    static Service instance;
+    return instance;
+  }
+private:
+  Service() = default;
+  ~Service() = default;
+  ... // make all special members private
+};
+
+// usage
+auto& service = Service::instance();
+```
+
+We can see in [this post](https://stackoverflow.com/questions/8102125/is-local-static-variable-initialization-thread-safe-in-c11) that the standard guarantees thread safety should multiple concurrent threads try and initialise `Service` simultaneously.
+
+**Dependency Injection**
+
+The technique of passing an object into a class (_injected_) instead of having the class create and store the object itself
+
+```
+// without DI
+struct Strategy {
+...
+private:
+  MarketDataProvider mdp_;
+}
+
+// with DI
+struct Strategy {
+  Strategy(MarketDataProvider*);
+private:
+  MarketDataProvider* mdp_;
+};
+```
+
+Dependencies of an object can be substituted in for the purposes of unit testing. i.e. With DI no concrete references of `MarketDataProvider` exist in `Strategy` class, and any object implementing a `MarketDataProviderInterface` can be swapped in.
+
+_NB:_ For performance reasons, if runtime polymorphism is _not_ required, templates can be used to achieve DI at compiletime which is a more performant alternative avoiding the virtual dispatch and indirection.
+
+```
+template<typename MDProvider>
+struct Strategy {
+  Strategy(MDProvider const& mdp): mdp_(mdp) {}
+  MDProvider mdp_;
+}
+```
+
+
+
+
