@@ -317,3 +317,35 @@ private:
 
 ```
 
+**Proxy Pattern**
+
+Provides a one-to-one forwarding interface to another class.
+
+Motivations include: Modifying behaviour of original class whilst preserving interface (e.g. adding thread safety by adding a lock(mutex) wrapper); lazy instantiation; implementing access control; support resource sharing.
+
+2 main approaches: composition or inheritance.
+
+```
+// Inheritance
+
+struct Original {
+  virtual void doSomething() = 0;
+};
+
+class Proxy: public Original {
+public:
+  void doSomething() override;
+};
+
+// Composition
+
+struct Original {
+  void doSomething();
+};
+
+class Proxy: 
+  void doSomething() { orig_->doSomething(); };
+private:
+  std::unique_ptr<Original> orig_;
+};
+```
