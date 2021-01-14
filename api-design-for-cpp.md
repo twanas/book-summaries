@@ -5,6 +5,7 @@
 - [Chapter 1: Introduction](#chapter-1-introduction)
 - [Chapter 2: Qualitites](#chapter-2-qualities)
 - [Chapter 3: Patterns](#chapter-3-patterns)
+- [Chapter 4: Design](#chapter-4-design)
 
 
 ### Chapter 1: Introduction
@@ -349,3 +350,97 @@ private:
   std::unique_ptr<Original> orig_;
 };
 ```
+
+**Adpater Pattern**
+
+Translates the interface for one class into a compatible but different interface. Can be implemented using composition or private inheritance
+
+```
+struct RectangleAdapter {
+  void set(float x1, float y1, float x2, float y2) {
+    rect_.dimensions(x1,x2,y1,y2);
+  }
+private:
+  Rectangle rect_;
+}
+
+// private inheritance
+struct RectangleAdapter: private Rectangle {
+  void set(float x1, float y1, float x2, float y2) {
+    dimensions(x1,x2,y1,y2);
+  }
+}
+```
+
+**Facade Pattern**
+
+Presents a simplified interface for a larger collection of classes. Defines higher-level interface that makes underlying components easier to use. Encapsulating facades make the underlying classes inaccessible.
+
+Useful for:
+- hiding legacy code
+- convenience api
+- reduced/alternative functionality
+
+**Observer Pattern**
+
+Allows classes to call other classes, while decoupling the components and avoiding cyclic dependancies
+
+Implementations use concept of subject & observer. Observer(s) _register_ with subjects. Subjects do not know the type of the _observers_ only their interface:
+
+```
+// Push
+struct Observer {
+  virtual void update(int) = 0;
+};
+
+struct MyObserver: public Observer {
+  void update(int) override;
+};
+
+struct Subject {
+  void subscribe(Observer*);
+  void notify() {
+    for (auto& o: observers_)
+      o.update(...);
+  }
+};
+```
+
+Observers can be _push_ or _pull_ based. Pull based observers trigger a void notification, relying on the observer to interrogate the subject
+
+```
+// Pull
+struct Observer {
+  virtual void update(int) = 0;
+};
+
+struct MyObserver: public Observer {
+  void update() override;
+};
+
+struct Subject {
+  void subscribe(Observer*);
+  void notify() {
+    for (auto& o: observers_)
+      o.update();
+  }
+  int get() { ... }
+};
+```
+
+The model-view-controller is the most popular use of the observer pattern.
+
+Model (Subject) - Core application 
+View (Observer) - Gui
+Controller (Links Subject and Observer) - Mediator
+
+_Summary_:
+
+Aim for dependency injection at _lower level_ components. Do consider `SessionState` object(s) like the `Document` rather than having singletons. 
+
+Use singleton pattern sparingly, prefer `Monostate`.
+
+Use factory, builder and singleton at higher level controller objects, allowing for testability and flexibility at lower levels.
+
+### Chapter 4: Design
+
