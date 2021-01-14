@@ -430,9 +430,9 @@ struct Subject {
 
 The model-view-controller is the most popular use of the observer pattern.
 
-Model (Subject) - Core application 
-View (Observer) - Gui
-Controller (Links Subject and Observer) - Mediator
+* Model (Subject) - Core application 
+* View (Observer) - Gui
+* Controller (Links Subject and Observer) - Mediator
 
 _Summary_:
 
